@@ -1,18 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 import Posts from '@/components/Posts';
+import AddPost from '@/components/AddPost';
 
 Vue.use(Router);
+Vue.use(BootstrapVue);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      // name: 'Hello',
-      // component: Hello
+      path: '/posts',
       name: 'Posts',
       component: Posts
     },
+    {
+      path: '/add-post',
+      name: 'AddPost',
+      component: AddPost
+    }
   ]
 })
+

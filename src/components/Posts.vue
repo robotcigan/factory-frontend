@@ -1,40 +1,38 @@
 <template>
   <div>
-    <div class="row">
 
-      <div class="col col-md-6">
         <h2>Посты</h2>
-        <ul class="list-group">
-          <li v-for="post in posts" class="list-group-item">
-            <div class="d-flex justify-content-between">
-              <span>
-                id: {{ post.id }}, name: {{ post.name }}
-              </span>
-              <div>
-                <div @click="editPost(post)" class="btn btn-info">Редактировать</div>
-                <div @click="deletePost(post)" class="btn btn-danger">Удалить</div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
+          <!--Поле поиска-->
+          <b-form-fieldset horizontal label="Фильтр">
+            <b-form-input v-model="filter" placeholder="Поиск постов" />
+          </b-form-fieldset>
+          <!--Таблица постов-->
+          <b-table striped hover
+                   :items="posts"
+                   :fields="fields"
+                   :filter="filter"
+                   @filtered="onFiltered"
+          >
+            <template slot="actions" scope="row">
+              <b-btn @click="editPost(row.item)" variant="info" size="sm">Редактировать</b-btn>
+              <b-btn @click="deletePost(post)" size="sm">Удалить</b-btn>
+            </template>
+          </b-table>
 
-      <div class="col col-md-6">
-        <h2>Новый пост</h2>
-        <form action="">
-          <div class="form-group">
-            <label>Название</label>
-            <input v-model="postModel.name" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Содержание</label>
-            <textarea v-model="postModel.description" class="form-control"></textarea>
-          </div>
-          <div @click="addPost" class="btn btn-primary">Сохранить</div>
-        </form>
-      </div>
 
-    </div>
+        <!--<h2>Новый пост</h2>-->
+        <!--<form action="">-->
+          <!--<div class="form-group">-->
+            <!--<label>Название</label>-->
+            <!--<input v-model="postModel.name" type="text" class="form-control">-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+            <!--<label>Содержание</label>-->
+            <!--<textarea v-model="postModel.description" class="form-control"></textarea>-->
+          <!--</div>-->
+          <!--<div @click="addPost" class="btn btn-primary">Сохранить</div>-->
+        <!--</form>-->
+
   </div>
 </template>
 
@@ -42,6 +40,13 @@
   let posts = [
     { id: 1, name: 'first', description: 'Some' },
     { id: 2, name: 'second', description: 'Some 2' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
+    { id: 3, name: 'third', description: 'Some 3' },
     { id: 3, name: 'third', description: 'Some 3' }
   ];
   function findPostById(id) {
@@ -60,6 +65,14 @@
           id: '',
           name: '',
           description: ''
+        },
+        filter: null,
+        totalRows: posts.length,
+        fields: {
+          id: { label: 'Id'},
+          name: { label: 'Заголовок' },
+          description: { label: 'Описание' },
+          actions: { label: 'Действия' }
         }
       }
     },
@@ -71,10 +84,15 @@
         });
       },
       editPost(post) {
-        this.postModel = posts[findPostById(post.id)];
+//        this.postModel = posts[findPostById(post.id)];
+//        console.log(posts[findPostById(post.id)])
+        this.postModel = post;
       },
       deletePost(post) {
         this.posts.splice(this.posts.indexOf(post), 1)
+      },
+      onFiltered(filteredItems) {
+        this.totalRows = filteredItems.length;
       }
     }
   }

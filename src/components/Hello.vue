@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h1>{{msg}}</h1>
+  <div>
+    <h1>gsadfgd</h1>
   </div>
 </template>
 
