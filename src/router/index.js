@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import Posts from '@/components/Posts';
+import Post from '@/components/Post';
 import AddPost from '@/components/AddPost';
 
 Vue.use(Router);
@@ -22,6 +23,11 @@ export default new Router({
       path: '/add-post',
       name: 'AddPost',
       component: AddPost
+    },
+    {
+      path: '/post/:id',
+      name: 'Post',
+      component: Post
     }
   ]
 })

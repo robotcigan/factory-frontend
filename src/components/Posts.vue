@@ -1,37 +1,27 @@
 <template>
   <div>
 
-        <h2>Посты</h2>
-          <!--Поле поиска-->
-          <b-form-fieldset horizontal label="Фильтр">
-            <b-form-input v-model="filter" placeholder="Поиск постов" />
-          </b-form-fieldset>
-          <!--Таблица постов-->
-          <b-table striped hover
-                   :items="posts"
-                   :fields="fields"
-                   :filter="filter"
-                   @filtered="onFiltered"
-          >
-            <template slot="actions" scope="row">
-              <b-btn @click="editPost(row.item)" variant="info" size="sm">Редактировать</b-btn>
-              <b-btn @click="deletePost(post)" size="sm">Удалить</b-btn>
-            </template>
-          </b-table>
-
-
-        <!--<h2>Новый пост</h2>-->
-        <!--<form action="">-->
-          <!--<div class="form-group">-->
-            <!--<label>Название</label>-->
-            <!--<input v-model="postModel.name" type="text" class="form-control">-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label>Содержание</label>-->
-            <!--<textarea v-model="postModel.description" class="form-control"></textarea>-->
-          <!--</div>-->
-          <!--<div @click="addPost" class="btn btn-primary">Сохранить</div>-->
-        <!--</form>-->
+      <h2>Посты</h2>
+        <!--Поле поиска-->
+        <b-form-fieldset horizontal label="Фильтр">
+          <b-form-input v-model="filter" placeholder="Поиск постов" />
+        </b-form-fieldset>
+        <!--Таблица постов-->
+        <b-table striped hover
+                 :items="posts"
+                 :fields="fields"
+                 :filter="filter"
+                 @filtered="onFiltered"
+                 href="#/505"
+        >
+          <template slot="_id" scope="data">
+            <a :href="`#/post/${data.value}`">{{ data.value }}</a>
+          </template>
+          <template slot="actions" scope="row">
+            <b-btn @click="editPost(row.item)" variant="info" size="sm">Редактировать</b-btn>
+            <b-btn @click="deletePost(row.item._id)" size="sm">Удалить</b-btn>
+          </template>
+        </b-table>
 
   </div>
 </template>
@@ -75,19 +65,17 @@
         });
     },
     methods: {
-      addPost() {
-        this.posts.push({
-          id: Math.random().toString().split('.')[1],
-          name: this.postModel.name
-        });
-      },
       editPost(post) {
-//        this.postModel = posts[findPostById(post.id)];
-//        console.log(posts[findPostById(post.id)])
         this.postModel = post;
       },
-      deletePost(post) {
-        this.posts.splice(this.posts.indexOf(post), 1)
+      deletePost(postId) {
+        this.posts.splice(this.posts.indexOf(postId), 1);
+        // console.log(post)
+        axios.delete(`http://localhost:1337/post/${postId}`)
+          .then((res) => {
+            console.log('success');
+            // this.showAlert = true;
+          });
       },
       onFiltered(filteredItems) {
         this.totalRows = filteredItems.length;

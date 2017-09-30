@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-alert variant="success" :show="showAlert">Пост успешно сохранен</b-alert>
     <h1>Add post</h1>
     <form action="">
     <div class="form-group">
@@ -21,10 +22,8 @@
   export default {
     data() {
       return {
-        postModel: {
-          name: '',
-          description: ''
-        }
+        postModel: {},
+        showAlert: false
       }
     },
     methods: {
@@ -35,7 +34,8 @@
         };
         axios.post('http://localhost:1337/post', newPost)
           .then((res) => {
-            // this.posts = res.data.posts;
+            console.log('success');
+            this.showAlert = true;
           });
       }
     }
