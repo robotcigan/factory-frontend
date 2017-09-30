@@ -37,18 +37,10 @@
 </template>
 
 <script>
-  let posts = [
-    { id: 1, name: 'first', description: 'Some' },
-    { id: 2, name: 'second', description: 'Some 2' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' },
-    { id: 3, name: 'third', description: 'Some 3' }
-  ];
+  import axios from 'axios';
+
+  let posts = [];
+
   function findPostById(id) {
     for (let i = 0; i < posts.length; i++) {
       if (posts[i].id == id) {
@@ -69,12 +61,18 @@
         filter: null,
         totalRows: posts.length,
         fields: {
-          id: { label: 'Id'},
+          _id: { label: 'Id'},
           name: { label: 'Заголовок' },
           description: { label: 'Описание' },
           actions: { label: 'Действия' }
         }
       }
+    },
+    mounted() {
+      axios.get('http://localhost:1337/posts')
+        .then((res) => {
+          this.posts = res.data.posts;
+        });
     },
     methods: {
       addPost() {
