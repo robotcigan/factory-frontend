@@ -14,6 +14,9 @@
                  @filtered="onFiltered"
                  href="#/505"
         >
+          <template slot="date" scope="data">
+            {{ data.value | moment("LL") }}
+          </template>
           <template slot="_id" scope="data">
             <a :href="`#/post/${data.value}`">{{ data.value }}</a>
           </template>
@@ -44,6 +47,7 @@
       return {
         posts: posts,
         postModel: {
+          date: '',
           id: '',
           name: '',
           description: ''
@@ -51,6 +55,7 @@
         filter: null,
         totalRows: posts.length,
         fields: {
+          date: { label: 'Дата создания' },
           _id: { label: 'Id'},
           name: { label: 'Заголовок' },
           description: { label: 'Описание' },
@@ -70,11 +75,9 @@
       },
       deletePost(postId) {
         this.posts.splice(this.posts.indexOf(postId), 1);
-        // console.log(post)
         axios.delete(`http://localhost:1337/post/${postId}`)
           .then((res) => {
             console.log('success');
-            // this.showAlert = true;
           });
       },
       onFiltered(filteredItems) {

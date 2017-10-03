@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueClip from 'vue-clip'
+import VueMoment from 'vue-moment'
+import 'moment/locale/ru'
+import Dropzone from 'vue2-dropzone'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -11,6 +15,9 @@ import AddPost from '@/components/AddPost';
 
 Vue.use(Router);
 Vue.use(BootstrapVue);
+Vue.use(VueClip);
+Vue.use(VueMoment);
+Vue.use(Dropzone);
 
 export default new Router({
   routes: [
